@@ -14,11 +14,9 @@ const addOptionOnePrice = +prompt("Сколько это будет стоить
 const addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
 const addOptionTwoPrice = +prompt("Сколько это будет стоить?");
 
+let servicePercentPrice = Math.ceil(fullPrice - fullPrice * (rollback / 100));
 
 fullPrice = screenPrice + addOptionOnePrice + addOptionTwoPrice;
-
-let servicePercentPrice = Math.ceil(fullPrice - fullPrice * (rollback / 100));
-console.log(servicePercentPrice);
 
 if (fullPrice >= 30000) {
     console.log("Даем скидку в 10%");
@@ -29,6 +27,8 @@ if (fullPrice >= 30000) {
 } else {
     console.log("Что то пошло не так");
 }
+
+console.log(servicePercentPrice);
 
 // console.log(typeof title, typeof fullPrice, typeof adaptive);
 // console.log(screens.length);
