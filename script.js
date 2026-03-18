@@ -12,17 +12,37 @@ const addOptionOnePrice = +prompt("Сколько это будет стоить
 const addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
 const addOptionTwoPrice = +prompt("Сколько это будет стоить?");
 
-let fullPrice = screenPrice + addOptionOnePrice + addOptionTwoPrice;
 let servicePercentPrice = Math.ceil(fullPrice - fullPrice * (rollback / 100));
 
 const showTypeOf = function (variable) {
     console.log(variable, typeof variable);
 };
 
-// function expression
+// 1. function expression
 const allServicePrices = function getAllServicePrices(optionOnePrice, optionTwoPrice) {
     return optionOnePrice + optionTwoPrice;
 };
+
+// 2. function declaration
+function getFullPrice() {
+    return screenPrice + allServicePrices(addOptionOnePrice, addOptionTwoPrice);
+}
+
+let fullPrice = getFullPrice();
+
+// 3. Функция гет тайтл
+function getTitle(title) {
+    while (Number(title[0]) === 0 || title[0] === " ") {
+        title.slice(1);
+    }
+
+    return title[0].toUpperCase() + "" + title.slice(1).toLowerCase();
+}
+
+getTitle(title);
+
+// 4.  Объявить функцию getServicePercentPrices
+// Реализовать
 
 const getRollBackMessage = function (price) {
     if (price >= 30000) {
@@ -44,6 +64,7 @@ allServicePrices(addOptionOnePrice, addOptionTwoPrice);
 console.log(getRollBackMessage(fullPrice));
 console.log(servicePercentPrice);
 console.log(allServicePrices(addOptionOnePrice, addOptionTwoPrice));
+console.log(getTitle(title));
 
 // console.log(typeof title, typeof fullPrice, typeof adaptive);
 // console.log(screens.length);
