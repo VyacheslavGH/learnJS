@@ -13,6 +13,7 @@ const addOptionTwo = prompt("Какой дополнительный тип ус
 const addOptionTwoPrice = +prompt("Сколько это будет стоить?");
 
 let servicePercentPrice = Math.ceil(fullPrice - fullPrice * (rollback / 100));
+// Тут ошибка фулпрайс еще не объявлен - исправить
 
 const showTypeOf = function (variable) {
     console.log(variable, typeof variable);
