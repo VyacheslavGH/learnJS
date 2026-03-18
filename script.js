@@ -5,8 +5,6 @@ const screens = prompt("Какие типы экранов нужно разра
 const screenPrice = +prompt("Сколько будет стоить данная работа?");
 const rollback = 89;
 
-let fullPrice = 500000;
-
 const adaptive = confirm("Нужен ли адаптив на сайте?");
 
 const addOptionOne = prompt("Какой дополнительный тип услуги нужен?");
@@ -14,12 +12,16 @@ const addOptionOnePrice = +prompt("Сколько это будет стоить
 const addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
 const addOptionTwoPrice = +prompt("Сколько это будет стоить?");
 
+let fullPrice = screenPrice + addOptionOnePrice + addOptionTwoPrice;
 let servicePercentPrice = Math.ceil(fullPrice - fullPrice * (rollback / 100));
-
-fullPrice = screenPrice + addOptionOnePrice + addOptionTwoPrice;
 
 const showTypeOf = function (variable) {
     console.log(variable, typeof variable);
+};
+
+// function expression
+const allServicePrices = function getAllServicePrices(optionOnePrice, optionTwoPrice) {
+    return optionOnePrice + optionTwoPrice;
 };
 
 const getRollBackMessage = function (price) {
@@ -37,9 +39,11 @@ const getRollBackMessage = function (price) {
 showTypeOf(title);
 showTypeOf(screenPrice);
 showTypeOf(adaptive);
+allServicePrices(addOptionOnePrice, addOptionTwoPrice);
 
 console.log(getRollBackMessage(fullPrice));
 console.log(servicePercentPrice);
+console.log(allServicePrices(addOptionOnePrice, addOptionTwoPrice));
 
 // console.log(typeof title, typeof fullPrice, typeof adaptive);
 // console.log(screens.length);
