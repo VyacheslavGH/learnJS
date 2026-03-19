@@ -92,11 +92,4 @@ console.log(servicePercentPrice);
 console.log(getTitle(title));
 console.log(getRollBackMessage(fullPrice));
 
-// console.log(typeof title, typeof fullPrice, typeof adaptive);
-// console.log(screens.length);
-// console.log(`Стоимость верстки экранов ${screenPrice} рублей`);
-// console.log(`Стоимость разработки сайта ${fullPrice} рублей`);
-// screens.toLowerCase();
-// console.log(screens.split(", "));
-// console.log(fullPrice * (rollback / 100));
-// console.log(fullPrice * (rollback / 100) > 10000 ? "Обдиралово" : "По рукам");
+// Исправить ошибку с выводом undefined в перменной servicePercentPrice
