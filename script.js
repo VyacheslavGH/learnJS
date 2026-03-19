@@ -1,37 +1,56 @@
 "use strict";
 
+// Блок объявления перменных
+
+// Название проекта
 const title = prompt("Как называется ваш проект?", "learnJS");
+
+// Что нужно сверстать
 const screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
+
+// Стоимость работы первичная
 const screenPrice = +prompt("Сколько будет стоить данная работа?");
-const rollback = 89;
+
+// Процент посреднику
+const rollback = 22;
 
 const adaptive = confirm("Нужен ли адаптив на сайте?");
 
+// Доп услуга 1
 const addOptionOne = prompt("Какой дополнительный тип услуги нужен?");
 const addOptionOnePrice = +prompt("Сколько это будет стоить?");
+
+// Доп услуга 2
 const addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
 const addOptionTwoPrice = +prompt("Сколько это будет стоить?");
 
-let servicePercentPrice = Math.ceil(fullPrice - fullPrice * (rollback / 100));
-// Тут ошибка фулпрайс еще не объявлен - исправить
+// Общая стоимость доп.услуг
+let allServicePrices = 0;
 
+// Общая стоимость верстки и доп.услуг
+let fullPrice = 0;
+
+// Сколько я получу всего (за вычетом процента посреднику)
+let servicePercentPrice = 0;
+
+// Блок описания функций
+
+// Определяем тип переменных
 const showTypeOf = function (variable) {
     console.log(variable, typeof variable);
 };
 
-// 1. function expression
-const allServicePrices = function getAllServicePrices(optionOnePrice, optionTwoPrice) {
+// 1. ДЗ function expression
+const getAllServicePrices = function (optionOnePrice, optionTwoPrice) {
     return optionOnePrice + optionTwoPrice;
 };
 
-// 2. function declaration
+// 2. ДЗ function declaration
 function getFullPrice() {
-    return screenPrice + allServicePrices(addOptionOnePrice, addOptionTwoPrice);
+    return screenPrice + getAllServicePrices(addOptionOnePrice, addOptionTwoPrice);
 }
 
-let fullPrice = getFullPrice();
-
-// 3. Функция гет тайтл
+// 3. ДЗ Функция гет тайтл
 function getTitle(title) {
     while (Number(title[0]) === 0 || title[0] === " ") {
         title.slice(1);
@@ -40,10 +59,10 @@ function getTitle(title) {
     return title[0].toUpperCase() + "" + title.slice(1).toLowerCase();
 }
 
-getTitle(title);
-
-// 4.  Объявить функцию getServicePercentPrices
-// Реализовать
+// 4. ДЗ Объявить функцию getServicePercentPrices
+let getServicePercentPrices = function () {
+    Math.ceil(fullPrice - fullPrice * (rollback / 100));
+};
 
 const getRollBackMessage = function (price) {
     if (price >= 30000) {
@@ -57,15 +76,21 @@ const getRollBackMessage = function (price) {
     }
 };
 
+// Блок вызова функций
 showTypeOf(title);
 showTypeOf(screenPrice);
 showTypeOf(adaptive);
-allServicePrices(addOptionOnePrice, addOptionTwoPrice);
+allServicePrices = getAllServicePrices(addOptionOnePrice, addOptionTwoPrice);
+fullPrice = getFullPrice();
+getTitle(title);
+servicePercentPrice = getServicePercentPrices();
 
-console.log(getRollBackMessage(fullPrice));
+// Консоль логи для отладки
+console.log(allServicePrices);
+console.log(fullPrice);
 console.log(servicePercentPrice);
-console.log(allServicePrices(addOptionOnePrice, addOptionTwoPrice));
 console.log(getTitle(title));
+console.log(getRollBackMessage(fullPrice));
 
 // console.log(typeof title, typeof fullPrice, typeof adaptive);
 // console.log(screens.length);
