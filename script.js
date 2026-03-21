@@ -40,19 +40,16 @@ const showTypeOf = function (variable) {
     console.log(variable, typeof variable);
 };
 
-// 1. ДЗ function expression
 // Считаем общую стоимость доп услуг
 const getAllServicePrices = function (optionOnePrice, optionTwoPrice) {
     return optionOnePrice + optionTwoPrice;
 };
 
-// 2. ДЗ function declaration
 // Считаем полную стоимость с доп.услугами
 function getFullPrice() {
     return screenPrice + getAllServicePrices(addOptionOnePrice, addOptionTwoPrice);
 }
 
-// 3. ДЗ Функция гет тайтл
 // Преобразуем любой тайтл в lowerCase, кроме первого символа
 function getTitle(title) {
     while (Number(title[0]) === 0 || title[0] === " ") {
@@ -62,7 +59,6 @@ function getTitle(title) {
     return title[0].toUpperCase() + "" + title.slice(1).toLowerCase();
 }
 
-// 4. ДЗ Объявить функцию getServicePercentPrices
 // Получаем округленную сумму, которую я получу за вычетом комисси посреднику
 let getServicePercentPrices = function () {
     return Math.ceil(fullPrice - fullPrice * (rollback / 100));
