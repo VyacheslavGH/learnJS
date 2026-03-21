@@ -3,26 +3,26 @@
 // Блок объявления перменных
 
 // Название проекта
-const title = prompt("Как называется ваш проект?", "learnJS");
+const title = prompt("Как называется ваш проект?", "Калькулятор верстки");
 
 // Что нужно сверстать
 const screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
 
 // Стоимость работы первичная
-const screenPrice = +prompt("Сколько будет стоить данная работа?");
+const screenPrice = +prompt("Сколько будет стоить данная работа?", 15000);
 
 // Процент посреднику
 const rollback = 22;
 
-const adaptive = confirm("Нужен ли адаптив на сайте?");
+const adaptive = confirm("Нужен ли адаптив на сайте?", "Да");
 
 // Доп услуга 1
-const addOptionOne = prompt("Какой дополнительный тип услуги нужен?");
-const addOptionOnePrice = +prompt("Сколько это будет стоить?");
+// const addOptionOne = prompt("Какой дополнительный тип услуги нужен?");
+// const addOptionOnePrice = +prompt("Сколько это будет стоить?");
 
-// Доп услуга 2
-const addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
-const addOptionTwoPrice = +prompt("Сколько это будет стоить?");
+// // Доп услуга 2
+// const addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
+// const addOptionTwoPrice = +prompt("Сколько это будет стоить?");
 
 // Общая стоимость доп.услуг
 let allServicePrices = 0;
@@ -41,13 +41,20 @@ const showTypeOf = function (variable) {
 };
 
 // Считаем общую стоимость доп услуг
-const getAllServicePrices = function (optionOnePrice, optionTwoPrice) {
-    return optionOnePrice + optionTwoPrice;
+const getAllServicePrices = function () {
+    let sum = 0;
+
+    for (let i = 0; i < 2; i++) {
+        sum += +prompt("Сколько это будет стоить?");
+    }
+
+    return sum;
+    // return optionOnePrice + optionTwoPrice;
 };
 
 // Считаем полную стоимость с доп.услугами
 function getFullPrice() {
-    return screenPrice + getAllServicePrices(addOptionOnePrice, addOptionTwoPrice);
+    return screenPrice + getAllServicePrices();
 }
 
 // Преобразуем любой тайтл в lowerCase, кроме первого символа
@@ -81,7 +88,7 @@ const getRollBackMessage = function (price) {
 showTypeOf(title);
 showTypeOf(screenPrice);
 showTypeOf(adaptive);
-allServicePrices = getAllServicePrices(addOptionOnePrice, addOptionTwoPrice);
+allServicePrices = getAllServicePrices();
 fullPrice = getFullPrice();
 getTitle(title);
 servicePercentPrice = getServicePercentPrices();
@@ -92,3 +99,5 @@ console.log(fullPrice);
 console.log(servicePercentPrice);
 console.log(getTitle(title));
 console.log(getRollBackMessage(fullPrice));
+
+console.log("allServicePrices", allServicePrices);
