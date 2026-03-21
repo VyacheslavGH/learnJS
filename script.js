@@ -3,26 +3,24 @@
 // Блок объявления перменных
 
 // Название проекта
-const title = prompt("Как называется ваш проект?", "Калькулятор верстки");
+let title;
 
 // Что нужно сверстать
-const screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
+let screens;
 
 // Стоимость работы первичная
-const screenPrice = +prompt("Сколько будет стоить данная работа?", 15000);
+let screenPrice;
+
+let adaptive;
 
 // Процент посреднику
-const rollback = 22;
-
-const adaptive = confirm("Нужен ли адаптив на сайте?", "Да");
+let rollback = 22;
 
 // Доп услуга 1
-// const addOptionOne = prompt("Какой дополнительный тип услуги нужен?");
-// const addOptionOnePrice = +prompt("Сколько это будет стоить?");
+let addOptionOne;
 
 // // Доп услуга 2
-// const addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
-// const addOptionTwoPrice = +prompt("Сколько это будет стоить?");
+let addOptionTwo;
 
 // Общая стоимость доп.услуг
 let allServicePrices = 0;
@@ -40,11 +38,34 @@ const showTypeOf = function (variable) {
     console.log(variable, typeof variable);
 };
 
+// Функция проверки на число
+const isNumber = function (num) {
+    return !isNaN(parseFloat(num) && isFinite(num));
+};
+
+// Задаем вопросы пользователю
+const asking = function () {
+    title = prompt("Как называется ваш проект?", "Калькулятор верстки");
+    screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
+
+    // screenPrice = +prompt("Сколько будет стоить данная работа?");
+
+    while (!isNumber(screenPrice)) {
+        screenPrice = prompt("Сколько будет стоить данная работа?");
+    }
+    adaptive = confirm("Нужен ли адаптив на сайте?");
+};
+
 // Считаем общую стоимость доп услуг
 const getAllServicePrices = function () {
     let sum = 0;
 
     for (let i = 0; i < 2; i++) {
+        if (i === 0) {
+            addOptionOne = prompt("Какой дополнительный тип услуги нужен?");
+        } else if (i === 1) {
+            addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
+        }
         sum += +prompt("Сколько это будет стоить?");
     }
     return (allServicePrices = sum);
@@ -84,6 +105,7 @@ const getRollBackMessage = function (price) {
 };
 
 // Блок вызова функций
+asking();
 showTypeOf(title);
 showTypeOf(screenPrice);
 showTypeOf(adaptive);
