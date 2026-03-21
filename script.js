@@ -43,10 +43,27 @@ const isNumber = function (num) {
     return !isNaN(parseFloat(num) && isFinite(num));
 };
 
+// Функция проверки на отстувие цифр в введенном строковом значении
+const isString = function (str) {
+    for (let i = 0; i < 10; i++) {
+        if (str.includes(String(i)) || str.trim().length === 0) {
+            return false;
+        }
+    }
+
+    str = str.trim();
+    return true;
+};
+
 // Задаем вопросы пользователю
 const asking = function () {
-    title = prompt("Как называется ваш проект?", "Калькулятор верстки");
-    screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
+    do {
+        title = prompt("Как называется ваш проект?", "Калькулятор верстки");
+    } while (!isString(title));
+
+    do {
+        screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
+    } while (!isString(screens));
 
     do {
         screenPrice = prompt("Сколько будет стоить данная работа?");
@@ -61,9 +78,13 @@ const getAllServicePrices = function () {
 
     for (let i = 0; i < 2; i++) {
         if (i === 0) {
-            addOptionOne = prompt("Какой дополнительный тип услуги нужен?");
+            do {
+                addOptionOne = prompt("Какой дополнительный тип услуги нужен?");
+            } while (!isString(addOptionOne));
         } else if (i === 1) {
-            addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
+            do {
+                addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
+            } while (!isString(addOptionTwo));
         }
 
         while (!isNumber(prompt("Сколько это будет стоить?"))) {
