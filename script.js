@@ -48,11 +48,10 @@ const asking = function () {
     title = prompt("Как называется ваш проект?", "Калькулятор верстки");
     screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
 
-    // screenPrice = +prompt("Сколько будет стоить данная работа?");
-
-    while (!isNumber(screenPrice)) {
+    do {
         screenPrice = prompt("Сколько будет стоить данная работа?");
-    }
+    } while (!isNumber(screenPrice));
+
     adaptive = confirm("Нужен ли адаптив на сайте?");
 };
 
@@ -66,10 +65,12 @@ const getAllServicePrices = function () {
         } else if (i === 1) {
             addOptionTwo = prompt("Какой дополнительный тип услуги нужен?");
         }
-        sum += +prompt("Сколько это будет стоить?");
+
+        while (!isNumber(prompt("Сколько это будет стоить?"))) {
+            sum += sum;
+        }
     }
     return (allServicePrices = sum);
-    // return optionOnePrice + optionTwoPrice;
 };
 
 // Считаем полную стоимость с доп.услугами
