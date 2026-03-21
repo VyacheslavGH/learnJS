@@ -47,8 +47,7 @@ const getAllServicePrices = function () {
     for (let i = 0; i < 2; i++) {
         sum += +prompt("Сколько это будет стоить?");
     }
-
-    return sum;
+    return (allServicePrices = sum);
     // return optionOnePrice + optionTwoPrice;
 };
 
@@ -88,13 +87,13 @@ const getRollBackMessage = function (price) {
 showTypeOf(title);
 showTypeOf(screenPrice);
 showTypeOf(adaptive);
-allServicePrices = getAllServicePrices();
+// allServicePrices = getAllServicePrices();
 fullPrice = getFullPrice();
 getTitle(title);
 servicePercentPrice = getServicePercentPrices();
 
 // Логи для отладки
-console.log(allServicePrices);
+// console.log(allServicePrices);
 console.log(fullPrice);
 console.log(servicePercentPrice);
 console.log(getTitle(title));
