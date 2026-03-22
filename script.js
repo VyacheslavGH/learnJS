@@ -74,7 +74,7 @@ const asking = function () {
 
 // Считаем общую стоимость доп услуг
 const getAllServicePrices = function () {
-    let sum = 0;
+    let sum;
 
     for (let i = 0; i < 2; i++) {
         if (i === 0) {
@@ -88,8 +88,10 @@ const getAllServicePrices = function () {
         }
 
         // Тут ошибка, мы к нулю прибавляем введенные числа, нужно поправить
-        while (!isNumber((sum = prompt("Сколько это будет стоить?")))) {
-            sum += +sum;
+        while (!isNumber(prompt("Сколько это будет стоить?"))) {
+            sum += prompt("Сколько это будет стоить?");
+            // этот код вообще блять не выполняется
+            console.log(`sum ======= ${sum}`);
         }
     }
     return Number(sum);
