@@ -67,6 +67,7 @@ const asking = function () {
     // Тут нужно вернуть ответ преобразованный в число, подумать как это сделать
     do {
         screenPrice = prompt("Сколько будет стоить данная работа?");
+        Number(screenPrice);
     } while (!isNumber(screenPrice));
 
     adaptive = confirm("Нужен ли адаптив на сайте?");
@@ -87,16 +88,17 @@ const getAllServicePrices = function () {
             } while (!isString(addOptionTwo));
         }
 
-        while (!isNumber(prompt("Сколько это будет стоить?"))) {
+        // Тут ошибка, мы к нулю прибавляем введенные числа, нужно поправить
+        while (!isNumber((sum = prompt("Сколько это будет стоить?")))) {
             sum += sum;
         }
     }
-    return (allServicePrices = Number(sum));
+    return Number(sum);
 };
 
 // Считаем полную стоимость с доп.услугами
 function getFullPrice() {
-    return screenPrice + getAllServicePrices();
+    return Number(screenPrice + allServicePrices);
 }
 
 // Преобразуем любой тайтл в lowerCase, кроме первого символа
@@ -131,24 +133,20 @@ asking();
 showTypeOf(title);
 showTypeOf(screenPrice);
 showTypeOf(adaptive);
-// allServicePrices = getAllServicePrices();
+allServicePrices = getAllServicePrices();
 fullPrice = getFullPrice();
 getTitle(title);
 servicePercentPrice = getServicePercentPrices();
 
 // Логи для отладки
-// console.log(allServicePrices);
-console.log(fullPrice);
-console.log(servicePercentPrice);
-console.log(getTitle(title));
-console.log(getRollBackMessage(fullPrice));
-
-console.log("allServicePrices", allServicePrices);
+console.log(`All Service Prices = ${allServicePrices} и имеет тип данных ${typeof allServicePrices}`);
+console.log(`Full Price = ${fullPrice} и имеет тип данных ${typeof fullPrice}`);
+console.log(`Service Percent Price = ${servicePercentPrice} и имеет тип данных ${typeof servicePercentPrice}`);
+console.log(`Тайтл после обработки: ${getTitle(title)}`);
+console.log(`Какую скидку мы готовы выдать: ${getRollBackMessage(fullPrice)}`);
 
 // Проверить, чтобы все типы данных в ответах были корректными
 // Реализовать приведение введенных данных к строке и числу (нужны две отдельные функции toString и toNumber)
 // Убрать лишнее из кода
 // Убедиться в работоспособности отсутствии ошибок в консоли
 // Убрать лишние логи для отладки и вызовы
-
-// Потом приступить к выполнению хард задач
