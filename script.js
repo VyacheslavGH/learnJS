@@ -64,10 +64,9 @@ const asking = function () {
         screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
     } while (!isString(screens));
 
-    // Тут нужно вернуть ответ преобразованный в число, подумать как это сделать
     do {
         screenPrice = prompt("Сколько будет стоить данная работа?");
-        Number(screenPrice);
+        screenPrice = Number(screenPrice);
     } while (!isNumber(screenPrice));
 
     adaptive = confirm("Нужен ли адаптив на сайте?");
@@ -90,7 +89,7 @@ const getAllServicePrices = function () {
 
         // Тут ошибка, мы к нулю прибавляем введенные числа, нужно поправить
         while (!isNumber((sum = prompt("Сколько это будет стоить?")))) {
-            sum += sum;
+            sum += +sum;
         }
     }
     return Number(sum);
@@ -139,6 +138,8 @@ getTitle(title);
 servicePercentPrice = getServicePercentPrices();
 
 // Логи для отладки
+console.log(`Title без обработки: ${title}`);
+console.log(`Screens: ${screens}`);
 console.log(`All Service Prices = ${allServicePrices} и имеет тип данных ${typeof allServicePrices}`);
 console.log(`Full Price = ${fullPrice} и имеет тип данных ${typeof fullPrice}`);
 console.log(`Service Percent Price = ${servicePercentPrice} и имеет тип данных ${typeof servicePercentPrice}`);
@@ -150,3 +151,4 @@ console.log(`Какую скидку мы готовы выдать: ${getRollBa
 // Убрать лишнее из кода
 // Убедиться в работоспособности отсутствии ошибок в консоли
 // Убрать лишние логи для отладки и вызовы
+// Не работает проверка на содержание цифр в строке isString()
