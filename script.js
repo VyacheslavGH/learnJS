@@ -147,3 +147,5 @@ console.log(`Full Price = ${fullPrice} и имеет тип данных ${typeo
 console.log(`Service Percent Price = ${servicePercentPrice} и имеет тип данных ${typeof servicePercentPrice}`);
 console.log(`Тайтл после обработки: ${getTitle(title)}`);
 console.log(`Какую скидку мы готовы выдать: ${getRollBackMessage(fullPrice)}`);
+
+// 6 урок начало
