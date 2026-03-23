@@ -91,7 +91,6 @@ const getAllServicePrices = function () {
         while (!isNumber(sum)) {
             sum = prompt("Сколько это будет стоить?");
             resultSum += Number(sum);
-            console.log(`sum ======= ${sum}`);
         }
 
         sum = "";
@@ -109,7 +108,6 @@ function getTitle(title) {
     while (Number(title[0]) === 0 || title[0] === " ") {
         title.slice(1);
     }
-
     return title[0].toUpperCase() + "" + title.slice(1).toLowerCase();
 }
 
@@ -149,10 +147,3 @@ console.log(`Full Price = ${fullPrice} и имеет тип данных ${typeo
 console.log(`Service Percent Price = ${servicePercentPrice} и имеет тип данных ${typeof servicePercentPrice}`);
 console.log(`Тайтл после обработки: ${getTitle(title)}`);
 console.log(`Какую скидку мы готовы выдать: ${getRollBackMessage(fullPrice)}`);
-
-// Проверить, чтобы все типы данных в ответах были корректными
-// Реализовать приведение введенных данных к строке и числу (нужны две отдельные функции toString и toNumber)
-// Убрать лишнее из кода
-// Убедиться в работоспособности отсутствии ошибок в консоли
-// Убрать лишние логи для отладки и вызовы
-// Не работает проверка на содержание цифр в строке isString()
