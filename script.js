@@ -72,9 +72,10 @@ const asking = function () {
     adaptive = confirm("Нужен ли адаптив на сайте?");
 };
 
-// Считаем общую стоимость доп услуг
+// Считаем общую стоимость доп. услуг
 const getAllServicePrices = function () {
     let sum;
+    let resultSum = 0;
 
     for (let i = 0; i < 2; i++) {
         if (i === 0) {
@@ -87,14 +88,15 @@ const getAllServicePrices = function () {
             } while (!isString(addOptionTwo));
         }
 
-        // Тут ошибка, мы к нулю прибавляем введенные числа, нужно поправить
-        while (!isNumber(prompt("Сколько это будет стоить?"))) {
-            sum += prompt("Сколько это будет стоить?");
-            // этот код вообще блять не выполняется
+        while (!isNumber(sum)) {
+            sum = prompt("Сколько это будет стоить?");
+            resultSum += Number(sum);
             console.log(`sum ======= ${sum}`);
         }
+
+        sum = "";
     }
-    return Number(sum);
+    return Number(resultSum);
 };
 
 // Считаем полную стоимость с доп.услугами
