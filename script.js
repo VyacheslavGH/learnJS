@@ -34,105 +34,102 @@ const appData = {
     allServicePrices: 0,
     fullPrice: 0,
     servicePercentPrice: 0,
+    // Блок описания функций
     asking: function () {
         do {
             appData.title = prompt("Как называется ваш проект?", "Калькулятор верстки");
-        } while (!isString(appData.title));
+        } while (!appData.isString(appData.title));
 
         do {
             appData.screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
-        } while (!isString(appData.screens));
+        } while (!appData.isString(appData.screens));
 
         do {
             appData.screenPrice = prompt("Сколько будет стоить данная работа?");
             appData.screenPrice = Number(appData.screenPrice);
-        } while (!isNumber(appData.screenPrice));
+        } while (!appData.isNumber(appData.screenPrice));
 
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
     },
-};
+    // Считаем общую стоимость доп. услуг
+    getAllServicePrices: function () {
+        let sum;
+        let resultSum = 0;
 
-// Блок описания функций
+        for (let i = 0; i < 2; i++) {
+            if (i === 0) {
+                do {
+                    appData.addOptionOne = prompt("Какой дополнительный тип услуги нужен?", "Добавить счетчик");
+                } while (!appData.isString(appData.addOptionOne));
+            } else if (i === 1) {
+                do {
+                    appData.addOptionTwo = prompt("Какой дополнительный тип услуги нужен?", "Кастомная регистрация");
+                } while (!appData.isString(appData.addOptionTwo));
+            }
 
-// Функция проверки на число
-const isNumber = function (num) {
-    return !isNaN(parseFloat(num) && isFinite(num));
-};
+            while (!appData.isNumber(sum)) {
+                sum = prompt("Сколько это будет стоить?");
+                resultSum += Number(sum);
+            }
 
-// Функция проверки на отстувие цифр в введенном строковом значении
-const isString = function (str) {
-    for (let i = 0; i < 10; i++) {
-        if (str.includes(String(i)) || str.trim().length === 0) {
-            return false;
+            sum = "";
         }
-    }
-    return true;
-};
-
-// Считаем общую стоимость доп. услуг
-const getAllServicePrices = function () {
-    let sum;
-    let resultSum = 0;
-
-    for (let i = 0; i < 2; i++) {
-        if (i === 0) {
-            do {
-                appData.addOptionOne = prompt("Какой дополнительный тип услуги нужен?", "Добавить счетчик");
-            } while (!isString(appData.addOptionOne));
-        } else if (i === 1) {
-            do {
-                appData.addOptionTwo = prompt("Какой дополнительный тип услуги нужен?", "Кастомная регистрация");
-            } while (!isString(appData.addOptionTwo));
+        return Number(resultSum);
+    },
+    // Функция проверки на число
+    isNumber: function (num) {
+        return !isNaN(parseFloat(num) && isFinite(num));
+    },
+    // Функция проверки на отстувие цифр в введенном строковом значении
+    isString: function (str) {
+        for (let i = 0; i < 10; i++) {
+            if (str.includes(String(i)) || str.trim().length === 0) {
+                return false;
+            }
         }
-
-        while (!isNumber(sum)) {
-            sum = prompt("Сколько это будет стоить?");
-            resultSum += Number(sum);
+        return true;
+    },
+    // Получаем округленную сумму, которую я получу за вычетом комисси посреднику
+    getServicePercentPrices: function () {
+        return Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
+    },
+    // Предусматриваем скидку
+    getRollBackMessage: function (price) {
+        if (price >= 30000) {
+            return "Даем скидку в 10%";
+        } else if (price >= 15000 && price < 30000) {
+            return "Даем скидку в 5%";
+        } else if (price >= 0 && price < 15000) {
+            return "Скидка не предусмотрена";
+        } else {
+            return "Что то пошло не так";
         }
-
-        sum = "";
-    }
-    return Number(resultSum);
+    },
+    // Преобразуем любой тайтл в lowerCase, кроме первого символа
+    getTitle: function (funcTitle) {
+        while (Number(funcTitle[0]) === 0 || funcTitle[0] === " ") {
+            funcTitle.slice(1);
+        }
+        return funcTitle[0].toUpperCase() + "" + funcTitle.slice(1).toLowerCase();
+    },
+    // Считаем полную стоимость с доп.услугами
+    getFullPrice: function () {
+        return Number(appData.screenPrice + appData.allServicePrices);
+    },
+    // Блок вызова функций
+    start: function () {
+        appData.asking();
+        appData.allServicePrices = appData.getAllServicePrices();
+        appData.fullPrice = appData.getFullPrice();
+        appData.getTitle(appData.title);
+        appData.servicePercentPrice = appData.getServicePercentPrices();
+        appData.logger();
+    },
+    // Логи для отладки
+    logger: function () {
+        console.log(appData.fullPrice);
+        console.log(appData.servicePercentPrice);
+    },
 };
 
-// Считаем полную стоимость с доп.услугами
-function getFullPrice() {
-    return Number(appData.screenPrice + appData.allServicePrices);
-}
-
-// Преобразуем любой тайтл в lowerCase, кроме первого символа
-function getTitle(funcTitle) {
-    while (Number(funcTitle[0]) === 0 || funcTitle[0] === " ") {
-        funcTitle.slice(1);
-    }
-    return funcTitle[0].toUpperCase() + "" + funcTitle.slice(1).toLowerCase();
-}
-
-// Получаем округленную сумму, которую я получу за вычетом комисси посреднику
-let getServicePercentPrices = function () {
-    return Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
-};
-
-// Предусматриваем скидку
-const getRollBackMessage = function (price) {
-    if (price >= 30000) {
-        return "Даем скидку в 10%";
-    } else if (price >= 15000 && price < 30000) {
-        return "Даем скидку в 5%";
-    } else if (price >= 0 && price < 15000) {
-        return "Скидка не предусмотрена";
-    } else {
-        return "Что то пошло не так";
-    }
-};
-
-// Блок вызова функций
-appData.asking();
-appData.allServicePrices = getAllServicePrices();
-appData.fullPrice = getFullPrice();
-getTitle(appData.title);
-appData.servicePercentPrice = getServicePercentPrices();
-
-// Логи для отладки
-console.log(appData.fullPrice);
-console.log(appData.servicePercentPrice);
+appData.start();
