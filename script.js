@@ -3,41 +3,56 @@
 // Блок объявления перменных
 
 // Название проекта
-let title;
-
+// title;
 // Что нужно сверстать
-let screens;
-
+// screens;
 // Стоимость работы первичная
-let screenPrice;
-
+// screenPrice;
 // Нужен ли адаптив
-let adaptive;
-
+// adaptive;
 // Процент посреднику
-let rollback = 22;
-
+// rollback = 22;
 // Доп услуга 1
-let addOptionOne;
-
-// // Доп услуга 2
-let addOptionTwo;
-
+// addOptionOne;
+// Доп услуга 2
+// addOptionTwo;
 // Общая стоимость доп.услуг
-let allServicePrices = 0;
-
+// allServicePrices = 0;
 // Общая стоимость верстки и доп.услуг
-let fullPrice = 0;
-
+// fullPrice = 0;
 // Сколько я получу всего (за вычетом процента посреднику)
-let servicePercentPrice = 0;
+// servicePercentPrice = 0;
+
+const appData = {
+    title: "",
+    screens: "",
+    screenPrice: 0,
+    adaptive: true,
+    rollback: 22,
+    addOptionOne: "",
+    addOptionTwo: "",
+    allServicePrices: 0,
+    fullPrice: 0,
+    servicePercentPrice: 0,
+    asking: function () {
+        do {
+            appData.title = prompt("Как называется ваш проект?", "Калькулятор верстки");
+        } while (!isString(appData.title));
+
+        do {
+            appData.screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
+        } while (!isString(appData.screens));
+
+        do {
+            appData.screenPrice = prompt("Сколько будет стоить данная работа?");
+            appData.screenPrice = Number(appData.screenPrice);
+        } while (!isNumber(appData.screenPrice));
+
+        appData.adaptive = confirm("Нужен ли адаптив на сайте?");
+    },
+};
 
 // Блок описания функций
-
-// Определяем тип переменных
-const showTypeOf = function (variable) {
-    console.log(`${variable} имеет тип данных - ${typeof variable}`);
-};
 
 // Функция проверки на число
 const isNumber = function (num) {
@@ -54,24 +69,6 @@ const isString = function (str) {
     return true;
 };
 
-// Задаем вопросы пользователю
-const asking = function () {
-    do {
-        title = prompt("Как называется ваш проект?", "Калькулятор верстки");
-    } while (!isString(title));
-
-    do {
-        screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
-    } while (!isString(screens));
-
-    do {
-        screenPrice = prompt("Сколько будет стоить данная работа?");
-        screenPrice = Number(screenPrice);
-    } while (!isNumber(screenPrice));
-
-    adaptive = confirm("Нужен ли адаптив на сайте?");
-};
-
 // Считаем общую стоимость доп. услуг
 const getAllServicePrices = function () {
     let sum;
@@ -80,12 +77,12 @@ const getAllServicePrices = function () {
     for (let i = 0; i < 2; i++) {
         if (i === 0) {
             do {
-                addOptionOne = prompt("Какой дополнительный тип услуги нужен?", "Добавить счетчик");
-            } while (!isString(addOptionOne));
+                appData.addOptionOne = prompt("Какой дополнительный тип услуги нужен?", "Добавить счетчик");
+            } while (!isString(appData.addOptionOne));
         } else if (i === 1) {
             do {
-                addOptionTwo = prompt("Какой дополнительный тип услуги нужен?", "Кастомная регистрация");
-            } while (!isString(addOptionTwo));
+                appData.addOptionTwo = prompt("Какой дополнительный тип услуги нужен?", "Кастомная регистрация");
+            } while (!isString(appData.addOptionTwo));
         }
 
         while (!isNumber(sum)) {
@@ -100,20 +97,20 @@ const getAllServicePrices = function () {
 
 // Считаем полную стоимость с доп.услугами
 function getFullPrice() {
-    return Number(screenPrice + allServicePrices);
+    return Number(appData.screenPrice + appData.allServicePrices);
 }
 
 // Преобразуем любой тайтл в lowerCase, кроме первого символа
-function getTitle(title) {
-    while (Number(title[0]) === 0 || title[0] === " ") {
-        title.slice(1);
+function getTitle(funcTitle) {
+    while (Number(funcTitle[0]) === 0 || funcTitle[0] === " ") {
+        funcTitle.slice(1);
     }
-    return title[0].toUpperCase() + "" + title.slice(1).toLowerCase();
+    return funcTitle[0].toUpperCase() + "" + funcTitle.slice(1).toLowerCase();
 }
 
 // Получаем округленную сумму, которую я получу за вычетом комисси посреднику
 let getServicePercentPrices = function () {
-    return Math.ceil(fullPrice - fullPrice * (rollback / 100));
+    return Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
 };
 
 // Предусматриваем скидку
@@ -130,21 +127,12 @@ const getRollBackMessage = function (price) {
 };
 
 // Блок вызова функций
-asking();
-showTypeOf(title);
-showTypeOf(screenPrice);
-showTypeOf(adaptive);
-allServicePrices = getAllServicePrices();
-fullPrice = getFullPrice();
-getTitle(title);
-servicePercentPrice = getServicePercentPrices();
+appData.asking();
+appData.allServicePrices = getAllServicePrices();
+appData.fullPrice = getFullPrice();
+getTitle(appData.title);
+appData.servicePercentPrice = getServicePercentPrices();
 
 // Логи для отладки
-console.log(`Title без обработки: ${title}`);
-console.log(`Screens: ${screens}`);
-console.log(`All Service Prices = ${allServicePrices} и имеет тип данных ${typeof allServicePrices}`);
-console.log(`Full Price = ${fullPrice} и имеет тип данных ${typeof fullPrice}`);
-console.log(`Service Percent Price = ${servicePercentPrice} и имеет тип данных ${typeof servicePercentPrice}`);
-console.log(`Тайтл после обработки: ${getTitle(title)}`);
-console.log(`Какую скидку мы готовы выдать: ${getRollBackMessage(fullPrice)}`);
-
+console.log(appData.fullPrice);
+console.log(appData.servicePercentPrice);
