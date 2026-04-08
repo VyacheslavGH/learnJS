@@ -25,7 +25,7 @@
 
 const appData = {
     title: "",
-    screens: "",
+    screens: [],
     screenPrice: 0,
     adaptive: true,
     rollback: 22,
@@ -39,14 +39,17 @@ const appData = {
             appData.title = prompt("Как называется ваш проект?", "Калькулятор верстки");
         } while (!appData.isString(appData.title));
 
-        do {
-            appData.screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
-        } while (!appData.isString(appData.screens));
+        for (let i = 0; i < 2; i++) {
+            let name = prompt("Какие типы экранов нужно разработать?");
+            let price = 0;
 
-        do {
-            appData.screenPrice = prompt("Сколько будет стоить данная работа?");
-            appData.screenPrice = Number(appData.screenPrice);
-        } while (!appData.isNumber(appData.screenPrice));
+            do {
+                price = prompt("Сколько будет стоить данная работа?");
+                price = Number(price);
+            } while (!appData.isNumber(price));
+
+            appData.screens.push({ id: i, name: name, price: price });
+        }
 
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
 
@@ -59,6 +62,7 @@ const appData = {
             }
             appData.addOptions[name] = +sum;
             sum = "";
+            console.log(appData.addOptions);
         }
     },
     // Считаем общую стоимость доп. услуг
@@ -121,6 +125,7 @@ const appData = {
         console.log(appData.fullPrice);
         console.log(appData.servicePercentPrice);
         console.log(appData.title);
+        console.log(appData.screens);
     },
 };
 
