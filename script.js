@@ -65,8 +65,10 @@ const appData = {
             console.log(appData.addOptions);
         }
     },
-    // Считаем общую стоимость доп. услуг
-    getAllServicePrices: function () {
+    addPrices: function () {
+        for (let screen of appData.screens) {
+            appData.screenPrice += +screen.price;
+        }
         for (let key in appData.addOptions) {
             appData.allServicePrices += appData.addOptions[key];
         }
@@ -114,7 +116,7 @@ const appData = {
     // Блок вызова функций
     start: function () {
         appData.asking();
-        appData.getAllServicePrices();
+        appData.addPrices();
         appData.getFullPrice();
         appData.getTitle(appData.title);
         appData.getServicePercentPrices();
