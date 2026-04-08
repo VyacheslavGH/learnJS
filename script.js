@@ -51,8 +51,8 @@ const appData = {
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
 
         for (let i = 0; i < 2; i++) {
-            let name = prompt('Какой дополнительный тип услуги нужен?", "Добавить счетчик');
-            let sum = 0;
+            let name = prompt("Какой дополнительный тип услуги нужен?");
+            let sum = "";
 
             while (!appData.isNumber(sum)) {
                 sum = prompt("Сколько это будет стоить?");
