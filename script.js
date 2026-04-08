@@ -29,8 +29,7 @@ const appData = {
     screenPrice: 0,
     adaptive: true,
     rollback: 22,
-    addOptionOne: "",
-    addOptionTwo: "",
+    addOptions: {},
     allServicePrices: 0,
     fullPrice: 0,
     servicePercentPrice: 0,
@@ -50,31 +49,23 @@ const appData = {
         } while (!appData.isNumber(appData.screenPrice));
 
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
-    },
-    // Считаем общую стоимость доп. услуг
-    getAllServicePrices: function () {
-        let sum;
-        let resultSum = 0;
 
         for (let i = 0; i < 2; i++) {
-            if (i === 0) {
-                do {
-                    appData.addOptionOne = prompt("Какой дополнительный тип услуги нужен?", "Добавить счетчик");
-                } while (!appData.isString(appData.addOptionOne));
-            } else if (i === 1) {
-                do {
-                    appData.addOptionTwo = prompt("Какой дополнительный тип услуги нужен?", "Кастомная регистрация");
-                } while (!appData.isString(appData.addOptionTwo));
-            }
+            let name = prompt('Какой дополнительный тип услуги нужен?", "Добавить счетчик');
+            let sum = 0;
 
             while (!appData.isNumber(sum)) {
                 sum = prompt("Сколько это будет стоить?");
-                resultSum += Number(sum);
             }
-
+            appData.addOptions[name] = +sum;
             sum = "";
         }
-        appData.allServicePrices = Number(resultSum);
+    },
+    // Считаем общую стоимость доп. услуг
+    getAllServicePrices: function () {
+        for (let key in appData.addOptions) {
+            appData.allServicePrices += appData.addOptions[key];
+        }
     },
     // Функция проверки на число
     isNumber: function (num) {
