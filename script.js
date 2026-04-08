@@ -74,7 +74,7 @@ const appData = {
 
             sum = "";
         }
-        return Number(resultSum);
+        appData.allServicePrices = Number(resultSum);
     },
     // Функция проверки на число
     isNumber: function (num) {
@@ -91,7 +91,7 @@ const appData = {
     },
     // Получаем округленную сумму, которую я получу за вычетом комисси посреднику
     getServicePercentPrices: function () {
-        return Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
+        appData.servicePercentPrice = Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
     },
     // Предусматриваем скидку
     getRollBackMessage: function (price) {
@@ -110,25 +110,26 @@ const appData = {
         while (Number(funcTitle[0]) === 0 || funcTitle[0] === " ") {
             funcTitle.slice(1);
         }
-        return funcTitle[0].toUpperCase() + "" + funcTitle.slice(1).toLowerCase();
+        appData.title = funcTitle[0].toUpperCase() + "" + funcTitle.slice(1).toLowerCase();
     },
     // Считаем полную стоимость с доп.услугами
     getFullPrice: function () {
-        return Number(appData.screenPrice + appData.allServicePrices);
+        appData.fullPrice = Number(appData.screenPrice + appData.allServicePrices);
     },
     // Блок вызова функций
     start: function () {
         appData.asking();
-        appData.allServicePrices = appData.getAllServicePrices();
-        appData.fullPrice = appData.getFullPrice();
+        appData.getAllServicePrices();
+        appData.getFullPrice();
         appData.getTitle(appData.title);
-        appData.servicePercentPrice = appData.getServicePercentPrices();
+        appData.getServicePercentPrices();
         appData.logger();
     },
     // Логи для отладки
     logger: function () {
         console.log(appData.fullPrice);
         console.log(appData.servicePercentPrice);
+        console.log(appData.title);
     },
 };
 
