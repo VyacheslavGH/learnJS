@@ -40,8 +40,12 @@ const appData = {
         } while (!appData.isString(appData.title));
 
         for (let i = 0; i < 2; i++) {
-            let name = prompt("Какие типы экранов нужно разработать?");
+            let name = "";
             let price = 0;
+
+            while (!appData.isString(name)) {
+                name = prompt("Какие типы экранов нужно разработать?");
+            }
 
             do {
                 price = prompt("Сколько будет стоить данная работа?");
@@ -54,8 +58,12 @@ const appData = {
         appData.adaptive = confirm("Нужен ли адаптив на сайте?");
 
         for (let i = 0; i < 2; i++) {
-            let name = prompt("Какой дополнительный тип услуги нужен?");
+            let name = "";
             let sum = "";
+
+            while (!appData.isString(name)) {
+                name = prompt("Какие типы экранов нужно разработать?");
+            }
 
             while (!appData.isNumber(sum)) {
                 sum = prompt("Сколько это будет стоить?");
