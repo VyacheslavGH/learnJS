@@ -62,7 +62,7 @@ const appData = {
             let sum = "";
 
             while (!appData.isString(name)) {
-                name = prompt("Какие типы экранов нужно разработать?");
+                name = prompt("Какой дополнительный тип услуги нужен?");
             }
 
             while (!appData.isNumber(sum)) {
@@ -70,7 +70,6 @@ const appData = {
             }
             appData.addOptions[name] = +sum;
             sum = "";
-            console.log(appData.addOptions);
         }
     },
     addPrices: function () {
@@ -85,14 +84,13 @@ const appData = {
     isNumber: function (num) {
         return !isNaN(parseFloat(num) && isFinite(num));
     },
-    // Функция проверки на отстувие цифр в введенном строковом значении
+    // Функция проверки на строку
     isString: function (str) {
-        for (let i = 0; i < 10; i++) {
-            if (str.includes(String(i)) || str.trim().length === 0) {
-                return false;
-            }
+        if (String(Number(str)) === "NaN") {
+            return true;
+        } else {
+            return false;
         }
-        return true;
     },
     // Получаем округленную сумму, которую я получу за вычетом комисси посреднику
     getServicePercentPrices: function () {
