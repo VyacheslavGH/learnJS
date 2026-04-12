@@ -25,7 +25,7 @@
 
 // Урок 9
 const title = document.getElementsByTagName("h1")[0];
-// console.log(title);
+console.log(title);
 const buttons = document.getElementsByClassName("handler_btn");
 console.log(buttons);
 const plusButton = document.querySelector(".screen-btn");
@@ -39,14 +39,14 @@ console.log(inputRange);
 const spanRange = document.querySelector(".rollback .range-value");
 console.log(spanRange);
 const totalInputs = document.getElementsByClassName("total-input");
+for (const input of totalInputs) {
+    console.log(input);
+}
 console.log(totalInputs);
 let screenBlocks = document.querySelectorAll(".screen");
 console.log(screenBlocks);
-// Пробежаться еще раз по заданию 9 урока и посмотреть, все ли я правильно сделал
-// В конце точно пару элементов получил некорректно
 //
-//
-//
+
 const appData = {
     title: "",
     screens: [],
