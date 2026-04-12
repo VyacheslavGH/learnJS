@@ -23,6 +23,28 @@
 // Сколько я получу всего (за вычетом процента посреднику)
 // servicePercentPrice = 0;
 
+// Урок 9
+const title = document.getElementsByTagName("h1")[0];
+// console.log(title);
+const buttons = document.getElementsByClassName("handler_btn");
+console.log(buttons);
+const plusButton = document.querySelector(".screen-btn");
+console.log(plusButton);
+const otherItemsPercent = document.querySelectorAll(".other-items.percent");
+const otherItemsNumber = document.querySelectorAll(".other-items.number");
+console.log(otherItemsPercent);
+console.log(otherItemsNumber);
+const inputRange = document.querySelector(".rollback input");
+console.log(inputRange);
+const spanRange = document.querySelector(".rollback .range-value");
+console.log(spanRange);
+const totalInputs = document.getElementsByClassName("total-input");
+console.log(totalInputs);
+let screenBlocks = document.querySelectorAll(".screen");
+console.log(screenBlocks);
+//
+//
+//
 const appData = {
     title: "",
     screens: [],
@@ -137,4 +159,4 @@ const appData = {
     },
 };
 
-appData.start();
+// appData.start();
