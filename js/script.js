@@ -42,6 +42,8 @@ const totalInputs = document.getElementsByClassName("total-input");
 console.log(totalInputs);
 let screenBlocks = document.querySelectorAll(".screen");
 console.log(screenBlocks);
+// Пробежаться еще раз по заданию 9 урока и посмотреть, все ли я правильно сделал
+// В конце точно пару элементов получил некорректно
 //
 //
 //
