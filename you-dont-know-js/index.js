@@ -1,4 +1,4 @@
-"use script";
+"use strict";
 
 let booksItem = document.querySelectorAll(".book");
 let adBanner = document.querySelector(".adv");
