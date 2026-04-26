@@ -58,6 +58,10 @@ const appData = {
         appData.addTitle();
         startBtn.addEventListener("click", appData.start);
         plusButton.addEventListener("click", appData.addScreenBlock);
+        appData.disableStartBtn();
+        appData.addListenersToScreenBlock();
+        plusButton.addEventListener("click", appData.disableStartBtn);
+        plusButton.addEventListener("click", appData.addListenersToScreenBlock);
     },
     addTitle: function () {
         document.title = title.textContent;
@@ -70,7 +74,53 @@ const appData = {
             const selectName = select.options[select.selectedIndex].textContent;
             appData.screens.push({ id: index, name: selectName, price: +select.value * +input.value });
         });
-        // console.log(appData.screens);
+        console.log(appData.screens);
+    },
+    isScreensSelected: function () {
+        screenBlocks = document.querySelectorAll(".screen");
+        console.log(screenBlocks);
+        let result = 0;
+        for (let i = 0; i < screenBlocks.length; i++) {
+            console.log(screenBlocks[i]);
+            let typeScreen = screenBlocks[i].querySelector("select");
+            let priceScreen = screenBlocks[i].querySelector("input");
+            // console.log(typeScreen.value);
+            // console.log(priceScreen.value);
+            if (typeScreen.options[typeScreen.selectedIndex].value !== "" && priceScreen.value !== "") {
+                result = true;
+            } else {
+                result = false;
+                break;
+            }
+        }
+        if (result) {
+            console.log(result);
+            return true;
+        } else {
+            console.log(result);
+            return false;
+        }
+    },
+    disableStartBtn: function () {
+        if (appData.isScreensSelected() === false) {
+            startBtn.disabled = true;
+            startBtn.style.opacity = "0.5";
+            startBtn.style.cursor = "not-allowed";
+        }
+    },
+    enableStartBtn: function () {
+        if (appData.isScreensSelected()) {
+            startBtn.removeAttribute("disabled");
+            startBtn.style.opacity = "unset";
+            startBtn.style.cursor = "pointer";
+        }
+    },
+    addListenersToScreenBlock: function () {
+        screenBlocks = document.querySelectorAll(".screen");
+        screenBlocks.forEach((element) => {
+            element.addEventListener("change", appData.disableStartBtn);
+            element.addEventListener("change", appData.enableStartBtn);
+        });
     },
     addServices: function () {
         otherItemsPercent.forEach(function (item) {
@@ -78,12 +128,8 @@ const appData = {
             const label = item.querySelector("label");
             const input = item.querySelector("input[type=text]");
 
-            // console.log(check);
-            // console.log(label);
-            // console.log(input);
             if (check.checked) {
                 appData.servicesPercent[label.textContent] = +input.value;
-                // console.log(appData.servicesPercent);
             }
         });
 
@@ -92,18 +138,13 @@ const appData = {
             const label = item.querySelector("label");
             const input = item.querySelector("input[type=text]");
 
-            // console.log(check);
-            // console.log(label);
-            // console.log(input);
             if (check.checked) {
                 appData.servicesNumber[label.textContent] = +input.value;
-                // console.log(appData.servicesNumber);
             }
         });
     },
     addScreenBlock: function () {
         const cloneScreen = screenBlocks[0].cloneNode(true);
-        // console.log(cloneScreen);
         screenBlocks[screenBlocks.length - 1].after(cloneScreen);
     },
     addPrices: function () {
@@ -148,8 +189,6 @@ const appData = {
         appData.addServices();
         appData.addPrices();
         appData.showResult();
-        // appData.getTitle(appData.title);
-        // appData.getServicePercentPrices();
         // appData.logger();
         console.log(appData);
     },
