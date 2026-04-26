@@ -157,6 +157,7 @@ const appData = {
             appData.servicePricesPercent += appData.screenPrice * (appData.servicesPercent[key] / 100);
         }
         appData.fullPrice = +appData.screenPrice + appData.servicePricesNumber + appData.servicePricesPercent;
+        appData.servicePercentPrice = Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
     },
     // Функция проверки на строку
     isString: function (str) {
@@ -167,9 +168,9 @@ const appData = {
         }
     },
     // Получаем округленную сумму, которую я получу за вычетом комисси посреднику
-    getServicePercentPrices: function () {
-        appData.servicePercentPrice = Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
-    },
+    // getServicePercentPrices: function () {
+    //     appData.servicePercentPrice = Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
+    // },
     // Предусматриваем скидку
     getRollBackMessage: function (price) {
         if (price >= 30000) {
@@ -195,6 +196,7 @@ const appData = {
         total.value = appData.screenPrice;
         totalCountOther.value = appData.servicePricesPercent + appData.servicePricesNumber;
         fullTotalCount.value = appData.fullPrice;
+        totalCountRollback.value = appData.servicePercentPrice;
     },
     // Логи для отладки
     logger: function () {
