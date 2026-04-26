@@ -46,8 +46,9 @@ const appData = {
     title: "",
     screens: [],
     screenPrice: 0,
+    count: {},
     adaptive: true,
-    rollback: 22,
+    rollback: 0,
     addOptions: {},
     servicePricesPercent: 0,
     servicePricesNumber: 0,
@@ -64,6 +65,7 @@ const appData = {
         plusButton.addEventListener("click", appData.disableStartBtn);
         plusButton.addEventListener("click", appData.addListenersToScreenBlock);
         inputRange.addEventListener("input", appData.displayValueInputRange);
+        startBtn.addEventListener("click", appData.displayScreensCount);
     },
     addTitle: function () {
         document.title = title.textContent;
@@ -82,8 +84,8 @@ const appData = {
         let result = 0;
         for (let i = 0; i < screenBlocks.length; i++) {
             let typeScreen = screenBlocks[i].querySelector("select");
-            let priceScreen = screenBlocks[i].querySelector("input");
-            if (typeScreen.options[typeScreen.selectedIndex].value !== "" && priceScreen.value !== "") {
+            let countScreen = screenBlocks[i].querySelector("input");
+            if (typeScreen.options[typeScreen.selectedIndex].value !== "" && countScreen.value !== "") {
                 result = true;
             } else {
                 result = false;
@@ -120,6 +122,14 @@ const appData = {
     displayValueInputRange: function () {
         spanRange.textContent = inputRange.value;
         appData.rollback = inputRange.value;
+    },
+    displayScreensCount: function () {
+        screenBlocks = document.querySelectorAll(".screen");
+        for (let i = 0; i < screenBlocks.length; i++) {
+            let countScreen = screenBlocks[i].querySelector("input").value;
+            appData.count[screen[i + 1]] = countScreen;
+        }
+        console.log(appData.count);
     },
     addServices: function () {
         otherItemsPercent.forEach(function (item) {
@@ -167,10 +177,6 @@ const appData = {
             return false;
         }
     },
-    // Получаем округленную сумму, которую я получу за вычетом комисси посреднику
-    // getServicePercentPrices: function () {
-    //     appData.servicePercentPrice = Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
-    // },
     // Предусматриваем скидку
     getRollBackMessage: function (price) {
         if (price >= 30000) {
