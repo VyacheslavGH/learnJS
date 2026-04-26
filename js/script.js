@@ -31,6 +31,7 @@ const otherItemsPercent = document.querySelectorAll(".other-items.percent");
 const otherItemsNumber = document.querySelectorAll(".other-items.number");
 const inputRange = document.querySelector(".rollback input");
 const spanRange = document.querySelector(".rollback .range-value");
+
 const totalInputs = document.getElementsByClassName("total-input");
 const total = document.getElementsByClassName("total-input")[0];
 const totalCount = document.getElementsByClassName("total-input")[1];
@@ -62,6 +63,7 @@ const appData = {
         appData.addListenersToScreenBlock();
         plusButton.addEventListener("click", appData.disableStartBtn);
         plusButton.addEventListener("click", appData.addListenersToScreenBlock);
+        inputRange.addEventListener("input", appData.displayValueInputRange);
     },
     addTitle: function () {
         document.title = title.textContent;
@@ -74,18 +76,13 @@ const appData = {
             const selectName = select.options[select.selectedIndex].textContent;
             appData.screens.push({ id: index, name: selectName, price: +select.value * +input.value });
         });
-        console.log(appData.screens);
     },
     isScreensSelected: function () {
         screenBlocks = document.querySelectorAll(".screen");
-        console.log(screenBlocks);
         let result = 0;
         for (let i = 0; i < screenBlocks.length; i++) {
-            console.log(screenBlocks[i]);
             let typeScreen = screenBlocks[i].querySelector("select");
             let priceScreen = screenBlocks[i].querySelector("input");
-            // console.log(typeScreen.value);
-            // console.log(priceScreen.value);
             if (typeScreen.options[typeScreen.selectedIndex].value !== "" && priceScreen.value !== "") {
                 result = true;
             } else {
@@ -94,10 +91,8 @@ const appData = {
             }
         }
         if (result) {
-            console.log(result);
             return true;
         } else {
-            console.log(result);
             return false;
         }
     },
@@ -121,6 +116,10 @@ const appData = {
             element.addEventListener("change", appData.disableStartBtn);
             element.addEventListener("change", appData.enableStartBtn);
         });
+    },
+    displayValueInputRange: function () {
+        spanRange.textContent = inputRange.value;
+        appData.rollback = inputRange.value;
     },
     addServices: function () {
         otherItemsPercent.forEach(function (item) {
