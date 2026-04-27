@@ -47,6 +47,7 @@ const appData = {
     screens: [],
     screenPrice: 0,
     count: {},
+    sumScreens: 0,
     adaptive: true,
     rollback: 0,
     addOptions: {},
@@ -58,7 +59,7 @@ const appData = {
     servicesNumber: {},
     init: function () {
         appData.addTitle();
-        startBtn.addEventListener("click", appData.start);
+        // startBtn.addEventListener("click", appData.start);
         plusButton.addEventListener("click", appData.addScreenBlock);
         appData.disableStartBtn();
         appData.addListenersToScreenBlock();
@@ -66,6 +67,7 @@ const appData = {
         plusButton.addEventListener("click", appData.addListenersToScreenBlock);
         inputRange.addEventListener("input", appData.displayValueInputRange);
         startBtn.addEventListener("click", appData.displayScreensCount);
+        startBtn.addEventListener("click", appData.start);
     },
     addTitle: function () {
         document.title = title.textContent;
@@ -126,8 +128,8 @@ const appData = {
     displayScreensCount: function () {
         screenBlocks = document.querySelectorAll(".screen");
         for (let i = 0; i < screenBlocks.length; i++) {
-            let countScreen = screenBlocks[i].querySelector("input").value;
-            appData.count[screen[i + 1]] = countScreen;
+            let countScreen = +screenBlocks[i].querySelector("input").value;
+            appData.count[`screen${[i + 1]}`] = countScreen;
         }
         console.log(appData.count);
     },
@@ -168,6 +170,10 @@ const appData = {
         }
         appData.fullPrice = +appData.screenPrice + appData.servicePricesNumber + appData.servicePricesPercent;
         appData.servicePercentPrice = Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
+
+        for (let screensCount in appData.count) {
+            appData.sumScreens += appData.count[screensCount];
+        }
     },
     // Функция проверки на строку
     isString: function (str) {
@@ -175,18 +181,6 @@ const appData = {
             return true;
         } else {
             return false;
-        }
-    },
-    // Предусматриваем скидку
-    getRollBackMessage: function (price) {
-        if (price >= 30000) {
-            return "Даем скидку в 10%";
-        } else if (price >= 15000 && price < 30000) {
-            return "Даем скидку в 5%";
-        } else if (price >= 0 && price < 15000) {
-            return "Скидка не предусмотрена";
-        } else {
-            return "Что то пошло не так";
         }
     },
     // Блок вызова функций
@@ -203,6 +197,7 @@ const appData = {
         totalCountOther.value = appData.servicePricesPercent + appData.servicePricesNumber;
         fullTotalCount.value = appData.fullPrice;
         totalCountRollback.value = appData.servicePercentPrice;
+        totalCount.value = appData.sumScreens;
     },
     // Логи для отладки
     logger: function () {
