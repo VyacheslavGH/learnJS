@@ -59,7 +59,6 @@ const appData = {
     servicesNumber: {},
     init: function () {
         appData.addTitle();
-        // startBtn.addEventListener("click", appData.start);
         plusButton.addEventListener("click", appData.addScreenBlock);
         appData.disableStartBtn();
         appData.addListenersToScreenBlock();
