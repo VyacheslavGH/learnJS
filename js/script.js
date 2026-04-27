@@ -57,6 +57,7 @@ const appData = {
     servicePercentPrice: 0,
     servicesPercent: {},
     servicesNumber: {},
+    isStartButtonClicked: false,
     init: function () {
         appData.addTitle();
         plusButton.addEventListener("click", appData.addScreenBlock);
@@ -123,6 +124,10 @@ const appData = {
     displayValueInputRange: function () {
         spanRange.textContent = inputRange.value;
         appData.rollback = inputRange.value;
+        if (appData.isStartButtonClicked === true) {
+            appData.servicePercentPrice = Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
+            totalCountRollback.value = appData.servicePercentPrice;
+        }
     },
     displayScreensCount: function () {
         screenBlocks = document.querySelectorAll(".screen");
@@ -130,7 +135,6 @@ const appData = {
             let countScreen = +screenBlocks[i].querySelector("input").value;
             appData.count[`screen${[i + 1]}`] = countScreen;
         }
-        console.log(appData.count);
     },
     addServices: function () {
         otherItemsPercent.forEach(function (item) {
@@ -182,14 +186,17 @@ const appData = {
             return false;
         }
     },
+    startBtnClicked: function () {
+        appData.isStartButtonClicked = true;
+    },
     // Блок вызова функций
     start: function () {
         appData.addScreens();
         appData.addServices();
         appData.addPrices();
         appData.showResult();
+        appData.startBtnClicked();
         // appData.logger();
-        console.log(appData);
     },
     showResult: function () {
         total.value = appData.screenPrice;
