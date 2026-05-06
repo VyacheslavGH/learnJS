@@ -59,18 +59,18 @@ const appData = {
     servicesNumber: {},
     isStartButtonClicked: false,
     init: function () {
-        this.addTitle();
-        plusButton.addEventListener("click", this.addScreenBlock);
+        appData.addTitle();
+        plusButton.addEventListener("click", appData.addScreenBlock);
         this.disableStartBtn();
         this.addListenersToScreenBlock();
-        plusButton.addEventListener("click", this.disableStartBtn);
-        plusButton.addEventListener("click", this.addListenersToScreenBlock);
+        plusButton.addEventListener("click", appData.disableStartBtn);
+        plusButton.addEventListener("click", appData.addListenersToScreenBlock);
         inputRange.addEventListener("input", appData.displayValueInputRange);
-        startBtn.addEventListener("click", this.displayScreensCount);
-        startBtn.addEventListener("click", this.start);
+        startBtn.addEventListener("click", appData.displayScreensCount);
+        startBtn.addEventListener("click", appData.start);
     },
     addTitle: function () {
-        document.title = title.textContent;
+        document.title = appData.textContent;
     },
     addScreens: function () {
         screenBlocks = document.querySelectorAll(".screen");
@@ -78,7 +78,7 @@ const appData = {
             const select = screen.querySelector("select");
             const input = screen.querySelector("input");
             const selectName = select.options[select.selectedIndex].textContent;
-            this.screens.push({ id: index, name: selectName, price: +select.value * +input.value });
+            appData.screens.push({ id: index, name: selectName, price: +select.value * +input.value });
         });
     },
     isScreensSelected: function () {
@@ -117,16 +117,16 @@ const appData = {
     addListenersToScreenBlock: function () {
         screenBlocks = document.querySelectorAll(".screen");
         screenBlocks.forEach((element) => {
-            element.addEventListener("change", this.disableStartBtn);
-            element.addEventListener("change", this.enableStartBtn);
+            element.addEventListener("change", appData.disableStartBtn);
+            element.addEventListener("change", appData.enableStartBtn);
         });
     },
     displayValueInputRange: function () {
         spanRange.textContent = inputRange.value;
-        this.rollback = inputRange.value;
-        if (this.isStartButtonClicked === true) {
-            this.servicePercentPrice = Math.ceil(this.fullPrice - this.fullPrice * (this.rollback / 100));
-            totalCountRollback.value = this.servicePercentPrice;
+        appData.rollback = inputRange.value;
+        if (appData.isStartButtonClicked === true) {
+            appData.servicePercentPrice = Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
+            totalCountRollback.value = appData.servicePercentPrice;
         }
     },
     displayScreensCount: function () {
