@@ -61,8 +61,8 @@ const appData = {
     init: function () {
         appData.addTitle();
         plusButton.addEventListener("click", appData.addScreenBlock);
-        this.disableStartBtn();
-        this.addListenersToScreenBlock();
+        appData.disableStartBtn();
+        appData.addListenersToScreenBlock();
         plusButton.addEventListener("click", appData.disableStartBtn);
         plusButton.addEventListener("click", appData.addListenersToScreenBlock);
         inputRange.addEventListener("input", appData.displayValueInputRange);
