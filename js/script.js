@@ -64,10 +64,10 @@ const appData = {
         this.disableStartBtn();
         this.addListenersToScreenBlock();
         plusButton.addEventListener("click", this.disableStartBtn.bind(appData));
-        plusButton.addEventListener("click", this.addListenersToScreenBlock);
-        inputRange.addEventListener("input", this.displayValueInputRange);
-        startBtn.addEventListener("click", this.displayScreensCount);
-        startBtn.addEventListener("click", this.start);
+        plusButton.addEventListener("click", this.addListenersToScreenBlock.bind(appData));
+        inputRange.addEventListener("input", this.displayValueInputRange.bind(appData));
+        startBtn.addEventListener("click", this.displayScreensCount.bind(appData));
+        startBtn.addEventListener("click", this.start.bind(appData));
     },
     addTitle: function () {
         document.title = title.textContent;
@@ -133,7 +133,7 @@ const appData = {
         screenBlocks = document.querySelectorAll(".screen");
         for (let i = 0; i < screenBlocks.length; i++) {
             let countScreen = +screenBlocks[i].querySelector("input").value;
-            appData.count[`screen${[i + 1]}`] = countScreen;
+            this.count[`screen${[i + 1]}`] = countScreen;
         }
     },
     addServices: function () {
@@ -143,7 +143,7 @@ const appData = {
             const input = item.querySelector("input[type=text]");
 
             if (check.checked) {
-                appData.servicesPercent[label.textContent] = +input.value;
+                this.servicesPercent[label.textContent] = +input.value;
             }
         });
 
@@ -153,7 +153,7 @@ const appData = {
             const input = item.querySelector("input[type=text]");
 
             if (check.checked) {
-                appData.servicesNumber[label.textContent] = +input.value;
+                this.servicesNumber[label.textContent] = +input.value;
             }
         });
     },
@@ -162,20 +162,20 @@ const appData = {
         screenBlocks[screenBlocks.length - 1].after(cloneScreen);
     },
     addPrices: function () {
-        for (let screen of appData.screens) {
-            appData.screenPrice += +screen.price;
+        for (let screen of this.screens) {
+            this.screenPrice += +screen.price;
         }
-        for (let key in appData.servicesNumber) {
-            appData.servicePricesNumber += appData.servicesNumber[key];
+        for (let key in this.servicesNumber) {
+            this.servicePricesNumber += this.servicesNumber[key];
         }
-        for (let key in appData.servicesPercent) {
-            appData.servicePricesPercent += appData.screenPrice * (appData.servicesPercent[key] / 100);
+        for (let key in this.servicesPercent) {
+            this.servicePricesPercent += this.screenPrice * (this.servicesPercent[key] / 100);
         }
-        appData.fullPrice = +appData.screenPrice + appData.servicePricesNumber + appData.servicePricesPercent;
-        appData.servicePercentPrice = Math.ceil(appData.fullPrice - appData.fullPrice * (appData.rollback / 100));
+        this.fullPrice = +this.screenPrice + this.servicePricesNumber + this.servicePricesPercent;
+        this.servicePercentPrice = Math.ceil(this.fullPrice - this.fullPrice * (this.rollback / 100));
 
-        for (let screensCount in appData.count) {
-            appData.sumScreens += appData.count[screensCount];
+        for (let screensCount in this.count) {
+            this.sumScreens += this.count[screensCount];
         }
     },
     // Функция проверки на строку
@@ -187,30 +187,30 @@ const appData = {
         }
     },
     startBtnClicked: function () {
-        appData.isStartButtonClicked = true;
+        this.isStartButtonClicked = true;
     },
     // Блок вызова функций
     start: function () {
-        appData.addScreens();
-        appData.addServices();
-        appData.addPrices();
-        appData.showResult();
-        appData.startBtnClicked();
-        // appData.logger();
+        this.addScreens();
+        this.addServices();
+        this.addPrices();
+        this.showResult();
+        this.startBtnClicked();
+        // this.logger();
     },
     showResult: function () {
-        total.value = appData.screenPrice;
-        totalCountOther.value = appData.servicePricesPercent + appData.servicePricesNumber;
-        fullTotalCount.value = appData.fullPrice;
-        totalCountRollback.value = appData.servicePercentPrice;
-        totalCount.value = appData.sumScreens;
+        total.value = this.screenPrice;
+        totalCountOther.value = this.servicePricesPercent + this.servicePricesNumber;
+        fullTotalCount.value = this.fullPrice;
+        totalCountRollback.value = this.servicePercentPrice;
+        totalCount.value = this.sumScreens;
     },
     // Логи для отладки
     logger: function () {
-        // console.log(appData.fullPrice);
-        // console.log(appData.servicePercentPrice);
-        // console.log(appData.title);
-        // console.log(appData.screens);
+        // console.log(this.fullPrice);
+        // console.log(this.servicePercentPrice);
+        // console.log(this.title);
+        // console.log(this.screens);
     },
 };
 
