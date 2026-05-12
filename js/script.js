@@ -31,7 +31,6 @@ const otherItemsPercent = document.querySelectorAll(".other-items.percent");
 const otherItemsNumber = document.querySelectorAll(".other-items.number");
 const inputRange = document.querySelector(".rollback input");
 const spanRange = document.querySelector(".rollback .range-value");
-
 const totalInputs = document.getElementsByClassName("total-input");
 const total = document.getElementsByClassName("total-input")[0];
 const totalCount = document.getElementsByClassName("total-input")[1];
@@ -41,6 +40,10 @@ const totalCountRollback = document.getElementsByClassName("total-input")[4];
 const startBtn = document.querySelectorAll(".handler_btn")[0];
 const resetBtn = document.querySelectorAll(".handler_btn")[1];
 let screenBlocks = document.querySelectorAll(".screen");
+let allInputsTypeText = document.querySelectorAll("input[type='text']");
+let allSelect = document.querySelectorAll("select");
+let allCheckboxes = document.querySelectorAll("input[type='checkbox']");
+let allValuesFromInputs = [];
 
 const appData = {
     title: "",
@@ -68,6 +71,9 @@ const appData = {
         inputRange.addEventListener("input", this.displayValueInputRange.bind(appData));
         startBtn.addEventListener("click", this.displayScreensCount.bind(appData));
         startBtn.addEventListener("click", this.start.bind(appData));
+        resetBtn.addEventListener("click", this.reset.bind(appData));
+        this.getValuesFromInputs();
+        console.log(allValuesFromInputs);
     },
     addTitle: function () {
         document.title = title.textContent;
@@ -189,13 +195,79 @@ const appData = {
     startBtnClicked: function () {
         this.isStartButtonClicked = true;
     },
+    disableTextInputsSelects: function () {
+        if (!this.isStartButtonClicked) {
+            return;
+        }
+
+        allInputsTypeText = document.querySelectorAll("input[type='text']");
+        allSelect = document.querySelectorAll("select");
+        for (let input of allInputsTypeText) {
+            if (!input.hasAttribute("disabled")) {
+                input.disabled = true;
+            }
+        }
+        for (let select of allSelect) {
+            if (!select.hasAttribute("disabled")) {
+                select.disabled = true;
+            }
+        }
+    },
+    changeButtons: function () {
+        startBtn.style.display = "none";
+        resetBtn.style.display = "block";
+    },
+    getValuesFromInputs: function (params) {
+        // for (let input of allInputsTypeText) {
+        //     if (input.getAttribute("placeholder")) {
+        //         allValuesFromInputs.push(input.getAttribute("placeholder"));
+        //     } else if (input.value) {
+        //         allValuesFromInputs.push(input.value);
+        //     }
+        // }
+        for (let input of allInputsTypeText) {
+            if (input.parentElement.style.display === "none") {
+                continue;
+            }
+            if (input.value) {
+                allValuesFromInputs.push(input.value);
+            } else if (input.getAttribute("placeholder")) {
+                allValuesFromInputs.push(input.getAttribute("placeholder"));
+            }
+        }
+    },
+    reset: function () {
+        for (let input of allInputsTypeText) {
+            if (input.getAttribute("placeholder")) {
+                input.value = input.getAttribute("placeholder");
+            } else if (!input.value) {
+                input.value = "";
+            } else {
+                input.value = input.value;
+            }
+        }
+        for (let i = 1; i < screenBlocks.length; i++) {
+            screenBlocks[i].remove();
+        }
+        allSelect[0].value = "";
+        for (let checkbox of allCheckboxes) {
+            checkbox.checked = false;
+        }
+        inputRange.value = "0";
+        spanRange.textContent = "0%";
+        // totalInputs
+        console.log(allValuesFromInputs);
+    },
     // Блок вызова функций
     start: function () {
+        // this.getValuesFromInputs();
         this.addScreens();
         this.addServices();
         this.addPrices();
         this.showResult();
         this.startBtnClicked();
+        this.disableTextInputsSelects();
+        this.changeButtons();
         // this.logger();
     },
     showResult: function () {
@@ -215,3 +287,31 @@ const appData = {
 };
 
 appData.init();
+console.log("allInputsTypeText: ", allInputsTypeText);
+console.log("allSelect: ", allSelect);
+
+console.log("title: ", title);
+console.log("buttons: ", buttons);
+console.log("plusButton: ", plusButton);
+console.log("otherItemsPercent: ", otherItemsPercent);
+console.log("otherItemsNumber: ", otherItemsNumber);
+console.log("inputRange: ", inputRange);
+console.log("spanRange: ", spanRange);
+console.log("totalInputs: ", totalInputs);
+console.log("total: ", total);
+console.log("totalCount: ", totalCount);
+console.log("totalCountOther: ", totalCountOther);
+console.log("fullTotalCount: ", fullTotalCount);
+console.log("totalCountRollback: ", totalCountRollback);
+console.log("startBtn: ", startBtn);
+console.log("resetBtn: ", resetBtn);
+console.log("screenBlocks: ", screenBlocks);
+
+// Получить в перменную все инпуты с type text
+// Получить в переменную все select с левой стороны
+// Воспользоваться имеющейся функцией отслеживающей нажатие кнопки рассчитать
+// Если кнопка нажата, то всем инпутам и селектам полученным в переменные через foreach или for добавить атрибут disabled
+
+// После этого создать функцию которая создает кнопку сброс
+// Также после нажатия кнопки рассчитать, у нас пропадает кнопка рассчитать и на ее место добавляется кнопка сброс
+// Далее описать как должна работать кнопка сброс
