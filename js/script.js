@@ -237,17 +237,22 @@ const appData = {
         }
     },
     reset: function () {
-        for (let input of allInputsTypeText) {
-            if (input.getAttribute("placeholder")) {
-                input.value = input.getAttribute("placeholder");
-            } else if (!input.value) {
-                input.value = "";
-            } else {
-                input.value = input.value;
-            }
-        }
+        // for (let input of allInputsTypeText) {
+        //     if (input.getAttribute("placeholder")) {
+        //         input.value = input.getAttribute("placeholder");
+        //     } else if (!input.value) {
+        //         input.value = "";
+        //     } else {
+        //         input.value = input.value;
+        //     }
+        // }
         for (let i = 1; i < screenBlocks.length; i++) {
             screenBlocks[i].remove();
+        }
+        let count = 0;
+        for (let input of allInputsTypeText) {
+            input.value = allValuesFromInputs[count];
+            count++;
         }
         allSelect[0].value = "";
         for (let checkbox of allCheckboxes) {
@@ -255,8 +260,8 @@ const appData = {
         }
         inputRange.value = "0";
         spanRange.textContent = "0%";
-        // totalInputs
-        console.log(allValuesFromInputs);
+        // // totalInputs
+        // console.log(allValuesFromInputs);
     },
     // Блок вызова функций
     start: function () {
