@@ -43,7 +43,8 @@ let screenBlocks = document.querySelectorAll(".screen");
 let allInputsTypeText = document.querySelectorAll("input[type='text']");
 let allSelect = document.querySelectorAll("select");
 let allCheckboxes = document.querySelectorAll("input[type='checkbox']");
-let allValuesFromInputs = [];
+let defaultInputs = [];
+let defaultValuesOfInputs = [];
 
 const appData = {
     title: "",
@@ -72,8 +73,10 @@ const appData = {
         startBtn.addEventListener("click", this.displayScreensCount.bind(appData));
         startBtn.addEventListener("click", this.start.bind(appData));
         resetBtn.addEventListener("click", this.reset.bind(appData));
-        this.getValuesFromInputs();
-        console.log(allValuesFromInputs);
+        this.getDefaultValuesFromInputs();
+        this.getDefaultInputs();
+        console.log("defaultValuesOfInputs: ", defaultValuesOfInputs);
+        console.log("defaultInputs: ", defaultInputs);
     },
     addTitle: function () {
         document.title = title.textContent;
@@ -217,22 +220,23 @@ const appData = {
         startBtn.style.display = "none";
         resetBtn.style.display = "block";
     },
-    getValuesFromInputs: function (params) {
-        // for (let input of allInputsTypeText) {
-        //     if (input.getAttribute("placeholder")) {
-        //         allValuesFromInputs.push(input.getAttribute("placeholder"));
-        //     } else if (input.value) {
-        //         allValuesFromInputs.push(input.value);
-        //     }
-        // }
+    getDefaultInputs: function () {
+        for (let input of allInputsTypeText) {
+            if (input.parentElement.style.display === "none") {
+                continue;
+            }
+            defaultInputs.push(input);
+        }
+    },
+    getDefaultValuesFromInputs: function (params) {
         for (let input of allInputsTypeText) {
             if (input.parentElement.style.display === "none") {
                 continue;
             }
             if (input.value) {
-                allValuesFromInputs.push(input.value);
+                defaultValuesOfInputs.push(input.value);
             } else if (input.getAttribute("placeholder")) {
-                allValuesFromInputs.push(input.getAttribute("placeholder"));
+                defaultValuesOfInputs.push(input.getAttribute("placeholder"));
             }
         }
     },
@@ -250,8 +254,8 @@ const appData = {
             screenBlocks[i].remove();
         }
         let count = 0;
-        for (let input of allInputsTypeText) {
-            input.value = allValuesFromInputs[count];
+        for (let input of defaultInputs) {
+            input.value = defaultValuesOfInputs[count];
             count++;
         }
         allSelect[0].value = "";
@@ -261,11 +265,11 @@ const appData = {
         inputRange.value = "0";
         spanRange.textContent = "0%";
         // // totalInputs
-        // console.log(allValuesFromInputs);
+        // console.log(defaultValuesOfInputs);
     },
     // Блок вызова функций
     start: function () {
-        // this.getValuesFromInputs();
+        // this.getDefaultValuesFromInputs();
         this.addScreens();
         this.addServices();
         this.addPrices();
