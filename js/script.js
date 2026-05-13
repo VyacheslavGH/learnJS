@@ -75,8 +75,6 @@ const appData = {
         resetBtn.addEventListener("click", this.reset.bind(appData));
         this.getDefaultValuesFromInputs();
         this.getDefaultInputs();
-        console.log("defaultValuesOfInputs: ", defaultValuesOfInputs);
-        console.log("defaultInputs: ", defaultInputs);
     },
     addTitle: function () {
         document.title = title.textContent;
@@ -205,6 +203,7 @@ const appData = {
 
         allInputsTypeText = document.querySelectorAll("input[type='text']");
         allSelect = document.querySelectorAll("select");
+        allCheckboxes = document.querySelectorAll("input[type='checkbox']");
         for (let input of allInputsTypeText) {
             if (!input.hasAttribute("disabled")) {
                 input.disabled = true;
@@ -215,10 +214,39 @@ const appData = {
                 select.disabled = true;
             }
         }
+        for (let checkbox of allCheckboxes) {
+            if (!checkbox.hasAttribute("disabled")) {
+                checkbox.disabled = true;
+            }
+        }
     },
-    changeButtons: function () {
+    enableTextInputsSelects: function () {
+        allInputsTypeText = document.querySelectorAll("input[type='text']");
+        allSelect = document.querySelectorAll("select");
+        allCheckboxes = document.querySelectorAll("input[type='checkbox']");
+        for (let input of allInputsTypeText) {
+            if (input.hasAttribute("disabled")) {
+                input.disabled = false;
+            }
+        }
+        for (let select of allSelect) {
+            if (select.hasAttribute("disabled")) {
+                select.disabled = false;
+            }
+        }
+        for (let checkbox of allCheckboxes) {
+            if (checkbox.hasAttribute("disabled")) {
+                checkbox.disabled = false;
+            }
+        }
+    },
+    hideStartBtn: function () {
         startBtn.style.display = "none";
         resetBtn.style.display = "block";
+    },
+    hideResetBtn: function () {
+        resetBtn.style.display = "none";
+        startBtn.style.display = "block";
     },
     getDefaultInputs: function () {
         for (let input of allInputsTypeText) {
@@ -241,15 +269,6 @@ const appData = {
         }
     },
     reset: function () {
-        // for (let input of allInputsTypeText) {
-        //     if (input.getAttribute("placeholder")) {
-        //         input.value = input.getAttribute("placeholder");
-        //     } else if (!input.value) {
-        //         input.value = "";
-        //     } else {
-        //         input.value = input.value;
-        //     }
-        // }
         for (let i = 1; i < screenBlocks.length; i++) {
             screenBlocks[i].remove();
         }
@@ -264,19 +283,18 @@ const appData = {
         }
         inputRange.value = "0";
         spanRange.textContent = "0%";
-        // // totalInputs
-        // console.log(defaultValuesOfInputs);
+        this.hideResetBtn();
+        this.enableTextInputsSelects();
     },
     // Блок вызова функций
     start: function () {
-        // this.getDefaultValuesFromInputs();
         this.addScreens();
         this.addServices();
         this.addPrices();
         this.showResult();
         this.startBtnClicked();
         this.disableTextInputsSelects();
-        this.changeButtons();
+        this.hideStartBtn();
         // this.logger();
     },
     showResult: function () {
