@@ -196,7 +196,7 @@ const appData = {
     startBtnClicked: function () {
         this.isStartButtonClicked = true;
     },
-    disableTextInputsSelects: function () {
+    disableAll: function () {
         if (!this.isStartButtonClicked) {
             return;
         }
@@ -219,8 +219,9 @@ const appData = {
                 checkbox.disabled = true;
             }
         }
+        plusButton.disabled = true;
     },
-    enableTextInputsSelects: function () {
+    enableAll: function () {
         allInputsTypeText = document.querySelectorAll("input[type='text']");
         allSelect = document.querySelectorAll("select");
         allCheckboxes = document.querySelectorAll("input[type='checkbox']");
@@ -229,6 +230,7 @@ const appData = {
                 input.disabled = false;
             }
         }
+        allInputsTypeText[0].value = "";
         for (let select of allSelect) {
             if (select.hasAttribute("disabled")) {
                 select.disabled = false;
@@ -238,6 +240,16 @@ const appData = {
             if (checkbox.hasAttribute("disabled")) {
                 checkbox.disabled = false;
             }
+        }
+        plusButton.disabled = false;
+        for (let element of otherItemsPercent) {
+            element.querySelector("input[type='text']").disabled = true;
+        }
+        for (let element of otherItemsNumber) {
+            element.querySelector("input[type='text']").disabled = true;
+        }
+        for (let input of totalInputs) {
+            input.disabled = true;
         }
     },
     hideStartBtn: function () {
@@ -268,6 +280,15 @@ const appData = {
             }
         }
     },
+    clearPrices: function () {
+        this.screenPrice = 0;
+        this.servicePricesNumber = 0;
+        this.servicePricesPercent = 0;
+        this.fullPrice = 0;
+        this.sumScreens = 0;
+        this.screens = [];
+        this.sumScreens = 0;
+    },
     reset: function () {
         for (let i = 1; i < screenBlocks.length; i++) {
             screenBlocks[i].remove();
@@ -284,7 +305,8 @@ const appData = {
         inputRange.value = "0";
         spanRange.textContent = "0%";
         this.hideResetBtn();
-        this.enableTextInputsSelects();
+        this.enableAll();
+        this.clearPrices();
     },
     // Блок вызова функций
     start: function () {
@@ -293,7 +315,7 @@ const appData = {
         this.addPrices();
         this.showResult();
         this.startBtnClicked();
-        this.disableTextInputsSelects();
+        this.disableAll();
         this.hideStartBtn();
         // this.logger();
     },
