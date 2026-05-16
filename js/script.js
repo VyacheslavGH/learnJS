@@ -45,6 +45,10 @@ let allSelect = document.querySelectorAll("select");
 let allCheckboxes = document.querySelectorAll("input[type='checkbox']");
 let defaultInputs = [];
 let defaultValuesOfInputs = [];
+const cmsCheckBox = document.querySelector("#cms-open");
+const cmsVariants = document.querySelector(".hidden-cms-variants");
+const cmsSelect = document.querySelector("#cms-select");
+const cmsOtherInput = document.querySelector("#cms-other-input");
 
 const appData = {
     title: "",
@@ -62,6 +66,7 @@ const appData = {
     servicesPercent: {},
     servicesNumber: {},
     isStartButtonClicked: false,
+    cmsPrice: 0,
     init: function () {
         this.addTitle();
         plusButton.addEventListener("click", this.addScreenBlock);
@@ -75,6 +80,8 @@ const appData = {
         resetBtn.addEventListener("click", this.reset.bind(appData));
         this.getDefaultValuesFromInputs();
         this.getDefaultInputs();
+        cmsCheckBox.addEventListener("click", this.openCloseCMS.bind(appData));
+        cmsSelect.addEventListener("input", this.cmsSelectValue.bind(appData));
     },
     addTitle: function () {
         document.title = title.textContent;
@@ -105,6 +112,28 @@ const appData = {
             return true;
         } else {
             return false;
+        }
+    },
+    openCloseCMS: function () {
+        if (cmsVariants.style.display === "none") {
+            cmsVariants.style.display = "flex";
+        } else {
+            cmsVariants.style.display = "none";
+        }
+    },
+    cmsSelectValue: function () {
+        if (cmsSelect.value === "other") {
+            this.openCloseCMSAddBlock("open");
+        } else {
+            this.openCloseCMSAddBlock("close");
+        }
+    },
+    openCloseCMSAddBlock: function (status) {
+        const cmsInput = cmsVariants.querySelector("div .main-controls__input");
+        if (status === "open") {
+            cmsInput.style.display = "block";
+        } else {
+            cmsInput.style.display = "none";
         }
     },
     disableStartBtn: function () {
@@ -168,6 +197,18 @@ const appData = {
         const cloneScreen = screenBlocks[0].cloneNode(true);
         screenBlocks[screenBlocks.length - 1].after(cloneScreen);
     },
+    addCMSPrice: function () {
+        let cmsSelectValue = cmsSelect.value;
+        let cmsCustomPrice = "";
+
+        if (!cmsSelectValue) {
+            return;
+        } else if (cmsSelectValue === "50") {
+            this.fullPrice = this.fullPrice + this.fullPrice * 0.5;
+        } else if (cmsSelectValue === "other") {
+            this.fullPrice = this.fullPrice + this.fullPrice * (+cmsOtherInput.value / 100);
+        }
+    },
     addPrices: function () {
         for (let screen of this.screens) {
             this.screenPrice += +screen.price;
@@ -178,7 +219,8 @@ const appData = {
         for (let key in this.servicesPercent) {
             this.servicePricesPercent += this.screenPrice * (this.servicesPercent[key] / 100);
         }
-        this.fullPrice = +this.screenPrice + this.servicePricesNumber + this.servicePricesPercent;
+        this.fullPrice =
+            +this.screenPrice + this.servicePricesNumber + this.servicePricesPercent + this.fullPrice * this.cmsPrice;
         this.servicePercentPrice = Math.ceil(this.fullPrice - this.fullPrice * (this.rollback / 100));
 
         for (let screensCount in this.count) {
@@ -220,6 +262,7 @@ const appData = {
             }
         }
         plusButton.disabled = true;
+        cmsVariants.style.display = "none";
     },
     enableAll: function () {
         allInputsTypeText = document.querySelectorAll("input[type='text']");
@@ -315,18 +358,23 @@ const appData = {
 
         inputRange.value = "0";
         spanRange.textContent = "0%";
+        this.cmsPrice = 0;
+        cmsSelect.selectedIndex = 0;
+        cmsOtherInput.value = "";
     },
     reset: function () {
         this.hideResetBtn();
         this.clearValues();
         this.enableAll();
         this.disableStartBtn();
+        this.openCloseCMSAddBlock();
     },
     // Блок вызова функций
     start: function () {
         this.addScreens();
         this.addServices();
         this.addPrices();
+        this.addCMSPrice();
         this.showResult();
         this.startBtnClicked();
         this.disableAll();
@@ -369,3 +417,7 @@ console.log("totalCountRollback: ", totalCountRollback);
 console.log("startBtn: ", startBtn);
 console.log("resetBtn: ", resetBtn);
 console.log("screenBlocks: ", screenBlocks);
+console.log("cmsCheckBox: ", cmsCheckBox);
+console.log("cmsVariants: ", cmsVariants);
+console.log("cmsSelect : ", cmsSelect);
+console.log("cmsOtherInput : ", cmsOtherInput);
