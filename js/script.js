@@ -268,7 +268,7 @@ const appData = {
             defaultInputs.push(input);
         }
     },
-    getDefaultValuesFromInputs: function (params) {
+    getDefaultValuesFromInputs: function () {
         for (let input of allInputsTypeText) {
             if (input.parentElement.style.display === "none") {
                 continue;
@@ -280,33 +280,47 @@ const appData = {
             }
         }
     },
-    clearPrices: function () {
-        this.screenPrice = 0;
-        this.servicePricesNumber = 0;
-        this.servicePricesPercent = 0;
-        this.fullPrice = 0;
-        this.sumScreens = 0;
+    clearValues: function () {
+        this.title = "";
         this.screens = [];
+        this.screenPrice = 0;
+        this.count = {};
         this.sumScreens = 0;
-    },
-    reset: function () {
+        this.adaptive = true;
+        this.rollback = 0;
+        this.addOptions = {};
+        this.servicePricesPercent = 0;
+        this.servicePricesNumber = 0;
+        this.fullPrice = 0;
+        this.servicePercentPrice = 0;
+        this.servicesPercent = {};
+        this.servicesNumber = {};
+        this.isStartButtonClicked = false;
+
         for (let i = 1; i < screenBlocks.length; i++) {
             screenBlocks[i].remove();
         }
+
         let count = 0;
         for (let input of defaultInputs) {
             input.value = defaultValuesOfInputs[count];
             count++;
         }
+
         allSelect[0].value = "";
+
         for (let checkbox of allCheckboxes) {
             checkbox.checked = false;
         }
+
         inputRange.value = "0";
         spanRange.textContent = "0%";
+    },
+    reset: function () {
         this.hideResetBtn();
+        this.clearValues();
         this.enableAll();
-        this.clearPrices();
+        this.disableStartBtn();
     },
     // Блок вызова функций
     start: function () {
@@ -355,12 +369,3 @@ console.log("totalCountRollback: ", totalCountRollback);
 console.log("startBtn: ", startBtn);
 console.log("resetBtn: ", resetBtn);
 console.log("screenBlocks: ", screenBlocks);
-
-// Получить в перменную все инпуты с type text
-// Получить в переменную все select с левой стороны
-// Воспользоваться имеющейся функцией отслеживающей нажатие кнопки рассчитать
-// Если кнопка нажата, то всем инпутам и селектам полученным в переменные через foreach или for добавить атрибут disabled
-
-// После этого создать функцию которая создает кнопку сброс
-// Также после нажатия кнопки рассчитать, у нас пропадает кнопка рассчитать и на ее место добавляется кнопка сброс
-// Далее описать как должна работать кнопка сброс
